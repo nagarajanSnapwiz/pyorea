@@ -10,3 +10,7 @@ Internally this library loads [*Pyodide*](https://pyodide.org/en/stable/) and ex
 
 # Demo
 https://codesandbox.io/s/objective-field-8zukov?file=/app.py
+
+# Documentation
+
+*Coming soon...*
