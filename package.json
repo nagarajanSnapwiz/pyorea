@@ -1,0 +1,26 @@
+{
+  "name": "pyorea",
+  "version": "0.1.0",
+  "description": "Write React applications using Python.",
+  "source": "src/pyorea.js",
+  "exports": {
+    "require": "./dist/pyorea.module.js",     
+    "default": "./dist/pyorea.module.js" 
+  },
+  "main": "./dist/pyorea.js",          
+  "module": "./dist/pyorea.module.js",
+  "unpkg": "./dist/pyorea.module.js",
+  "scripts": {
+    "build": "microbundle",          
+    "dev": "microbundle watch"  
+  },
+  "devDependencies": {
+    "microbundle":"0.15.1"
+  },
+  "keywords": [
+    "Python React",
+    "Webassembly python"
+  ],
+  "author": "Nagarajan",
+  "license": "MIT"
+}
