@@ -16,8 +16,7 @@ async function hidePreloader() {
 }
 
 async function loadDeps() {
-
-  const allDeps = { ...defaultDeps, ...(window.npm_deps||{}) };
+  const allDeps = { ...defaultDeps, ...(window.npm_deps || {}) };
   const depsLoadPromises = Promise.all(
     Object.keys(allDeps).map((key) => {
       const item = allDeps[key];
@@ -105,22 +104,16 @@ pyorea.render = render
 pyorea.React = React
 sys.modules['pyorea'] = pyorea
 
-`
+`;
 
 async function run() {
-  console.time("deps");
   const moduleEntries = await loadDeps();
-  console.timeEnd("deps");
-  console.time("loadPy");
   const pyodide = await loadPyodide({ fullStdLib: true });
-  console.timeEnd("loadPy");
-  console.time("register");
+
   for (const { module, name } of moduleEntries) {
     pyodide.registerJsModule(name, module);
   }
-  console.timeEnd("register");
   const scripts = [];
-  console.time("script1");
   document
     .querySelectorAll(`script[type="text/python"]`)
     .forEach((x, index) => {
@@ -138,10 +131,7 @@ async function run() {
       }
     });
   const scriptContents = await Promise.all(scripts);
-  console.log("scriptContecxt", scriptContents);
-  console.timeEnd("script1");
   await hidePreloader();
-  console.time("script_ex");
   pyodide.runPython(libraryPythonCode);
   for (const { text, name } of scriptContents) {
     try {
@@ -150,7 +140,6 @@ async function run() {
       console.error(`Error in file ${name}`, error);
     }
   }
-  console.timeEnd("script_ex");
 }
 
 function main() {
