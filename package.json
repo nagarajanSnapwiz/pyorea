@@ -1,19 +1,16 @@
 {
   "name": "pyorea",
-  "version": "0.1.0-patch2",
+  "version": "0.1.0-patch3",
   "type": "module",
   "description": "Write React applications using Python",
   "source": "src/pyorea.js",
-  "exports": {
-    "require": "./dist/pyorea.module.js",     
-    "default": "./dist/pyorea.module.js" 
-  },
+
   "main": "./dist/pyorea.js",          
   "module": "./dist/pyorea.module.js",
   "unpkg": "./dist/pyorea.module.js",
   "publishConfig": {
     "source": "src/pyorea.js",      
-    "main": "dist/pyorea.module.js"
+    "main": "dist/pyorea.js"
   },
   "scripts": {
     "build": "microbundle",          
