@@ -34,7 +34,7 @@ function App() {
   const editorRef = useRef<any>();
 
   const showPreviewForEncoded = (encoded: string) => {
-    iframeRef.current!.src = `/preview.html?code=${encoded}`;
+    iframeRef.current!.src = `preview.html?code=${encoded}`;
   };
 
   useEffect(() => {
