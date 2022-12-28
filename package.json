@@ -1,6 +1,6 @@
 {
   "name": "pyorea",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Write React applications using Python",
   "source": "src/pyorea.js",

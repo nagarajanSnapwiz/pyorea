@@ -110,6 +110,7 @@ async function run() {
   const moduleEntries = await loadDeps();
   const pyodide = await loadPyodide({ fullStdLib: true });
 
+
   for (const { module, name } of moduleEntries) {
     pyodide.registerJsModule(name, module);
   }
@@ -130,7 +131,10 @@ async function run() {
         });
       }
     });
-  const scriptContents = await Promise.all(scripts);
+  let scriptContents = await Promise.all(scripts);
+  if(window.__scripts && Array.isArray(window.__scripts)){
+    scriptContents = [...scriptContents, ...window.__scripts];
+  }
   await hidePreloader();
   pyodide.runPython(libraryPythonCode);
   for (const { text, name } of scriptContents) {

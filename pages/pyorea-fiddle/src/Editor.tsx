@@ -9,10 +9,12 @@ import { EditorView, basicSetup } from "codemirror";
 import { placeholder, keymap } from "@codemirror/view";
 import { indentWithTab } from "@codemirror/commands";
 import { python } from "@codemirror/lang-python";
+import { solarizedDark } from 'cm6-theme-solarized-dark';
 
 type EditorProps = {
   minHeight?: string;
   maxHeight?: string;
+  height?: string;
   initialText?: string;
   placeHolder?: string;
   style?: CSSProperties;
@@ -23,6 +25,7 @@ export const Editor = forwardRef(
     {
       minHeight,
       maxHeight,
+      height,
       initialText,
       placeHolder: placeholderText,
       style,
@@ -36,8 +39,12 @@ export const Editor = forwardRef(
     useImperativeHandle(
       ref,
       () => ({
-        //@ts-ignore
-        getValues: () => editorViewRef.current?.state.doc.text.join("\n"),
+
+        getValues: () => {
+          console.log('state',editorViewRef.current?.state);
+          const values = editorViewRef.current?.state.doc.toString();
+          return values;
+        },
       }),
       []
     );
@@ -46,6 +53,7 @@ export const Editor = forwardRef(
       const minMaxStyle = EditorView.theme({
         ...(minHeight ? { ".cm-content, .cm-gutter": { minHeight } } : {}),
         ...(maxHeight ? { "&": { maxHeight } } : {}),
+        ...( height? { "&": { height } } : {}),
         ".cm-scroller": { overflow: "auto" },
       });
 
@@ -55,8 +63,10 @@ export const Editor = forwardRef(
           basicSetup,
           keymap.of([indentWithTab]),
           python(),
+          solarizedDark,
           placeholder(placeholderText || "Write your Python code here..."),
           minMaxStyle,
+
         ],
         parent: domRef.current!,
       });
