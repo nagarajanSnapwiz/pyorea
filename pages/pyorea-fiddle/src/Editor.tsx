@@ -41,10 +41,15 @@ export const Editor = forwardRef(
       () => ({
 
         getValues: () => {
-          console.log('state',editorViewRef.current?.state);
           const values = editorViewRef.current?.state.doc.toString();
           return values;
         },
+        setValue: (value:string) => {
+          const state = editorViewRef.current!.state;
+          const update = state.update({changes: {from: 0, to: state.doc.length, insert:value}})
+          editorViewRef.current!.update([update])
+
+        } 
       }),
       []
     );
