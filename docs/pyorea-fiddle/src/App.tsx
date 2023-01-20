@@ -67,7 +67,7 @@ function App() {
               updateUrlForEncoded(compressed);
             }}
           >
-            Compile
+            Run <img src="https://icongr.am/feather/play.svg?size=12&color=ffffff" />
           </button>
         </div>
         <div className="col">

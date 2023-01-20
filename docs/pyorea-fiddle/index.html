@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-    <link rel="stylesheet" href="https://unpkg.com/chota@0.8.0/dist/chota.min.css">
+    <title>Pyorea playground</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/chota@0.8.0/dist/chota.min.css"
+    />
     <style>
       body.dark {
         --bg-color: #000;
@@ -13,19 +16,24 @@
         --color-grey: #ccc;
         --color-darkGrey: #777;
       }
+      #root {
+        max-width: calc(100% - 20px);
+        margin: 0 auto;
+      }
     </style>
-    
   </head>
-  
+
   <body>
     <div id="root"></div>
     <div id="et"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
   <script>
-    if (window.matchMedia &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark');
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      document.body.classList.add("dark");
     }
   </script>
 </html>

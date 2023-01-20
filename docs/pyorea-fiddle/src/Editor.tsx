@@ -68,7 +68,7 @@ export const Editor = forwardRef(
           basicSetup,
           keymap.of([indentWithTab]),
           python(),
-          solarizedDark,
+          //solarizedDark,
           placeholder(placeholderText || "Write your Python code here..."),
           minMaxStyle,
 

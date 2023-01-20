@@ -5,7 +5,7 @@ function delay(ms) {
 }
 
 async function hidePreloader() {
-  const preloader = document.querySelector(".preloader");
+  const preloader = document.querySelector(".preloader,.pyorea-preloader");
   if (preloader) {
     preloader.style.transition = "opacity 0.4s ease";
     preloader.style.opacity = 1;
@@ -14,6 +14,22 @@ async function hidePreloader() {
     preloader.style.display = "none";
   }
 }
+
+
+/**
+ * 
+ * @param  {...string} paths 
+ */
+ async function esmImport(...paths){
+    const modules =  await Promise.all(paths.map(p => import(`https://esm.sh/${p}`)));
+    if(modules.length===1){
+        return modules[0];
+    } else {
+        return modules
+    }
+  }
+
+window.esmImport = esmImport;
 
 async function loadDeps() {
   const allDeps = { ...defaultDeps, ...(window.npm_deps || {}) };
@@ -34,7 +50,7 @@ async function loadDeps() {
   );
   const [moduleEntries] = await Promise.all([
     depsLoadPromises,
-    import("https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js"),
+    import("https://cdn.jsdelivr.net/pyodide/v0.22.0/full/pyodide.js"),
   ]);
 
   return moduleEntries;
@@ -102,13 +118,15 @@ pyorea.h = h
 pyorea.Component = Component
 pyorea.render = render
 pyorea.React = React
+pyorea.esm_import = window.esmImport
 sys.modules['pyorea'] = pyorea
 
 `;
 
 async function run() {
   const moduleEntries = await loadDeps();
-  const pyodide = await loadPyodide({ fullStdLib: true });
+  const pyodide = await loadPyodide({ fullStdLib: false });
+  window.__pyodide = pyodide;
 
   for (const { module, name } of moduleEntries) {
     pyodide.registerJsModule(name, module);
@@ -135,15 +153,12 @@ async function run() {
     scriptContents = [...scriptContents, ...window.__scripts];
   }
   await hidePreloader();
-  //mounting idfs filesystem to persist file write operations
-  const mountDir = "/mnt";
-  pyodide.FS.mkdir(mountDir);
-  pyodide.FS.mount(pyodide.FS.filesystems.IDBFS, { root: "." }, mountDir);
   
   pyodide.runPython(libraryPythonCode);
   for (const { text, name } of scriptContents) {
     try {
-      pyodide.runPython(text);
+      await pyodide.loadPackagesFromImports(text);
+      await pyodide.runPythonAsync(text);
     } catch (error) {
       console.error(`Error in file ${name}`, error);
     }
